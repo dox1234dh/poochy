@@ -1,18 +1,31 @@
 <script setup lang="ts">
+import { withLeadingSlash } from 'ufo'
+import type { Collections } from '@nuxt/content'
+
 const route = useRoute()
+const { locale } = useI18n()
+const slug = computed(() => Array.isArray(route.params.slug) ? withLeadingSlash(String(route.params.slug.join('/'))) : withLeadingSlash(String(route.params.slug)))
 
-const { data: page } = await useAsyncData('page-' + route.path, () => {
-  return queryCollection('content').path(route.path).first()
+const { data: page } = await useAsyncData('page-' + slug.value, async () => {
+  // Build collection name based on current locale
+  const collection = ('content_' + locale.value) as keyof Collections
+  let content = await queryCollection(collection).path(slug.value).first()
+
+  // Fallback to default locale if content is missing
+  if (!content && locale.value !== 'en') {
+    content = await queryCollection('content_en').path(slug.value).first()
+  }
+
+  return content
+}, {
+  watch: [locale], // Refetch when locale changes
 })
-
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
-}
 </script>
 
 <template>
-  <ContentRenderer
-    v-if="page"
-    :value="page"
-  />
+  <ContentRenderer v-if="page" :value="page" />
+  <div v-else>
+    <h1>Page not found</h1>
+    <p>This page doesn't exist in {{ locale }} language.</p>
+  </div>
 </template>
