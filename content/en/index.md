@@ -1,11 +1,12 @@
 ---
 title: Welcome to Nuxt Content starter
+description: Đây là nội dung được thêm để test xóa chỉnh sửa trên web ở giao diện tiếng anh
 draft: false
 ---
 
 # Welcome to Nuxt Content starter EN
 
-Đây là nội dung được thêm để test xóa chỉnh sửa trên web ở giao diện tiếng anh
+Nội dung ở đây đã được chỉnh sửa
 
 ## Manage your contents
 
