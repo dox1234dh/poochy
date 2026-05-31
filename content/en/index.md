@@ -5,6 +5,8 @@ draft: false
 
 # Welcome to Nuxt Content starter EN
 
+Đây là nội dung được thêm để test xóa chỉnh sửa trên web ở giao diện tiếng anh
+
 ## Manage your contents
 
 Create new pages or modify the existing ones in `content/` directory.
